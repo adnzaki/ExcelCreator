@@ -82,7 +82,7 @@ $excel->setColumnWidth('D', 12);
 
 or
 
-$excel->setColumnWidth('D', null); // will create auto size
+$excel->setColumnWidth('D'); // will create auto size
 ```
 Or if you would like to set some columns with the same size:
 ```
@@ -91,7 +91,7 @@ $excel->setMultipleColumnsWidth($columns, 12);
 
 or
 
-$excel->setMultipleColumnsWidth($columns, null); // will create auto size for those columns
+$excel->setMultipleColumnsWidth($columns); // will create auto size for those columns
 ```
 And you would like to set default column's width
 ```
