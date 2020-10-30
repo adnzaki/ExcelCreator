@@ -19,6 +19,7 @@ require APPPATH . 'ThirdParty/spreadsheet/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XLsxReader;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx as XLsxWriter;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
@@ -110,6 +111,24 @@ class ExcelCreator
     }
 
     /**
+     * A short way to save excel file
+     * Note that user has to set content-type header first
+     * before use this method
+     * 
+     * @param string $filename
+     * @param string $excelType
+     * 
+     * @return void
+     */
+    public function save($filename, $excelType = 'Xlsx')
+    {
+        header("Content-Disposition: attachment;filename={$filename}");
+        header('Cache-Control: max-age=0');
+        $writer = IOFactory::createWriter($this->spreadsheet, $excelType);
+        $writer->save('php://output');
+    }
+
+    /**
      * A convenient way to apply style to PHPSpreadsheet
      * in a compact and simple code
      * Although there are many functions to set style in PHPSpreadsheet,
@@ -136,6 +155,30 @@ class ExcelCreator
     public function fillCell($value)
     {
         $this->spreadsheet->getActiveSheet()->fromArray($value);
+    }
+
+    /**
+     * Merge Cells
+     * 
+     * @param string $cells
+     * 
+     * @return void
+     */
+    public function mergeCells($cells)
+    {
+        $this->spreadsheet->getActiveSheet()->mergeCells($cells);
+    }
+
+    /**
+     * Unmerge Cells
+     * 
+     * @param string $cells
+     * 
+     * @return void
+     */
+    public function unmergeCells($cells)
+    {
+        $this->spreadsheet->getActiveSheet()->unmergeCells($cells);
     }
 
     /**
@@ -238,10 +281,17 @@ class ExcelCreator
      */
     public function setMultipleRowsHeight($dimensionRange, $height)
     {
-        $range = explode('-', $dimensionRange);
-        for($i = $range[0]; $i <= $range[1]; $i++)
+        if(! strpos($dimensionRange, '-'))
         {
-            $this->setRowHeight($i, $height);
+            $this->setRowHeight($dimensionRange, $height);
+        }
+        else
+        {
+            $range = explode('-', $dimensionRange);
+            for($i = $range[0]; $i <= $range[1]; $i++)
+            {
+                $this->setRowHeight($i, $height);
+            }
         }
     }
 

@@ -28,6 +28,15 @@ $excel->writer($excel->spreadsheet);
 $excel->reader($excel->spreadsheet);
 ```
 
+- Saving excel file to client's browser not get more simple<br>
+```
+$excel->save('hello world.xlsx'); // save in Excel 2007 format
+// or
+$excel->save('hello world.xlsx', 'Xls'); // save in Xls format
+```
+Note that you have to set Content-Type header before use this method. 
+And also the second parameter should follow the PHPSpreadsheet file type.
+
 - Apply styles into cells<br>
 The best way to apply style is using array and pass it as parameter
 ```
@@ -56,6 +65,13 @@ $data = [
 ];
 
 $excel->fillCell($data);
+```
+
+- Merge and unmerge cells<br>
+Although merging and unmerging cells in PHPSpreadsheet is easy, but we make it more simple.
+```
+$excel->mergeCells('A1:B1');
+$excel->unmergeCells('A1:B1');
 ```
 
 - Setting column's width<br>
