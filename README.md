@@ -64,8 +64,19 @@ $data = [
     ['Dien Azizah', 'Bojonegoro']
 ];
 
-$excel->fillCell($data);
+$excel->fillCell($data); // fill cell from A1
+// or 
+$excel->fillCell($data, 'A2'); // fill cell from A2
 ```
+
+- Wrapping text
+Wrapping a cell is get easier
+```
+$excel->wrapText('B5');
+```
+Note: Wrapped text can be overridden if you set style array after `wrapText()` without
+defining wrapText in alignment.
+
 
 - Merge and unmerge cells<br>
 Although merging and unmerging cells in PHPSpreadsheet is easy, but we make it more simple.
@@ -80,7 +91,7 @@ just to set column's width? Here is how ExcelCreator makes it easy for you:
 ```
 $excel->setColumnWidth('D', 12);
 
-or
+// or
 
 $excel->setColumnWidth('D'); // will create auto size
 ```

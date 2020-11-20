@@ -151,10 +151,25 @@ class ExcelCreator
      * Fill cell value from array
      * 
      * @param array $value
+     * @param string $startCell
+     * 
+     * @return void
      */
-    public function fillCell($value)
+    public function fillCell($value, $startCell = 'A1')
     {
-        $this->spreadsheet->getActiveSheet()->fromArray($value);
+        $this->spreadsheet->getActiveSheet()->fromArray($value, null, $startCell);
+    }
+
+    /**
+     * Wrap a text
+     * 
+     * @param string $cell
+     * 
+     * @return void
+     */
+    public function wrapText($cell)
+    {
+        $this->spreadsheet->getActiveSheet()->getStyle($cell)->getAlignment()->setWrapText(true);
     }
 
     /**
