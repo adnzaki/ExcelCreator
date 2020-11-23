@@ -24,7 +24,7 @@ $data = [
 
 // fill cells with header and data as provided
 $excel->fillCell($header);
-$excel->fillCell($data);
+$excel->fillCell($data, 'A2');
 
 // set first column's width
 $excel->setColumnWidth('A', 14);

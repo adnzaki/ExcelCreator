@@ -288,13 +288,39 @@ class ExcelCreator
 
     /**
      * Set multiple rows with the same height
+     * The $dimensions now supports string value like '1-5'
+     * or array like ['1' => 40, '3-5' => 25]
+     * 
+     * @param string|array $dimensions
+     * @param int|null $height
+     * 
+     * @return void
+     */
+    public function setMultipleRowsHeight($dimensions, $height = null)
+    {
+        if(is_array($dimensions))
+        {
+            foreach($dimensions as $key => $val)
+            {
+                $this->_setMultipleRowsHeight($key, $val);
+            }
+        }
+        else
+        {
+            $this->_setMultipleRowsHeight($dimensions, $height);
+        }
+        
+    }
+
+    /**
+     * This is the excecutor of setMultipleRowsHeight
      * 
      * @param string $dimensionRange
      * @param int $height
      * 
      * @return void
      */
-    public function setMultipleRowsHeight($dimensionRange, $height)
+    private function _setMultipleRowsHeight($dimensionRange, $height)
     {
         if(! strpos($dimensionRange, '-'))
         {

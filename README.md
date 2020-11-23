@@ -69,7 +69,7 @@ $excel->fillCell($data); // fill cell from A1
 $excel->fillCell($data, 'A2'); // fill cell from A2
 ```
 
-- Wrapping text
+- Wrapping text<br>
 Wrapping a cell is get easier
 ```
 $excel->wrapText('B5');
@@ -104,7 +104,7 @@ or
 
 $excel->setMultipleColumnsWidth($columns); // will create auto size for those columns
 ```
-And you would like to set default column's width
+And if you would like to set default column's width
 ```
 $excel->setDefaultColumnWidth(12);
 ```
@@ -118,7 +118,11 @@ Or if you would like to set some rows with the same height:
 ```
 $excel->setMultipleRowsHeight('1-5', 20);
 ```
-And you would like to set default row's height
+But now `setMultipleRowsHeight()` supports more multiple rows:
+```
+$excel->setMultipleRowsHeight(['1' => 40, '2' => 30 '3-6' => 20]);
+```
+And if you would like to set default row's height
 ```
 $excel->setDefaultRowHeight(20);
 ```
