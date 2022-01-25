@@ -28,7 +28,7 @@ $excel->writer($excel->spreadsheet);
 $excel->reader($excel->spreadsheet);
 ```
 
-- Saving excel file to client's browser not get more simple<br>
+- Saving excel file to client's browser never get more simple like this:<br>
 ```
 $excel->save('hello world.xlsx'); // save in Excel 2007 format
 // or
@@ -79,7 +79,7 @@ defining wrapText in alignment.
 
 
 - Merge and unmerge cells<br>
-Although merging and unmerging cells in PHPSpreadsheet is easy, but we make it more simple.
+Although merging and unmerging cells in PHPSpreadsheet is easy, but we make it to be more simple.
 ```
 $excel->mergeCells('A1:B1');
 $excel->unmergeCells('A1:B1');
