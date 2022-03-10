@@ -8,6 +8,9 @@
             "homepage": "https://github.com/adnzaki"
         }
     ],
+    "autoload": {
+        "files": [ "ExcelCreator.php" ]
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "phpoffice/phpspreadsheet": "^1.22"
