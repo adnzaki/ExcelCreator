@@ -1,6 +1,6 @@
 <?php
 
-require 'ExcelCreator.php';
+require 'vendor/autoload.php';
 
 // create new object
 $excel = new ExcelCreator();
