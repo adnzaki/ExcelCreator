@@ -1,0 +1,14 @@
+{
+    "name": "adnzaki/excel-creator",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adnan Zaki",
+            "homepage": "https://github.com/adnzaki"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.22"
+    }
+}
