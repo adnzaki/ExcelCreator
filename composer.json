@@ -9,7 +9,7 @@
         }
     ],
     "autoload": {
-        "files": [ "src/ExcelCreator.php" ]
+        "files": [ "ExcelCreator.php" ]
     },
     "require": {
         "php": "^7.4 || ^8.0",

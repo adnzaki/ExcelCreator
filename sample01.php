@@ -82,7 +82,8 @@ $excel->applyStyle($headerStyle, 'A1:D1');
 $excel->applyStyle($dataStyle, 'A2:D10');
 $excel->applyStyle($numStyle, 'A2:A10');
 
-header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-
-// save to client's browser
+// you do not need to define header('Content-type: ....') 
+// if your Excel filetype is "Xlsx", and you can leave the second argument of
+// $excel->save() blank as well. Otherwise, you have to define the header()
+// and pass the excel filetype in the second argument.
 $excel->save('halo anak muda.xlsx');
