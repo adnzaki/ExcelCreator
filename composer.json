@@ -1,6 +1,6 @@
 {
     "name": "adnzaki/excel-creator",
-    "type": "project",
+    "description": "A PHPOffice Spreadsheet simplifier",
     "license": "MIT",    
     "authors": [
         {
