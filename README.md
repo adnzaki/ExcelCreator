@@ -6,15 +6,31 @@
 more easily. ExcelCreator simplifies method calls like `$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(12)` into `$excel->setColumnWidth('A', 12)`.
 You may think it does not really help you, but imagine that you have to write code like you usually use in PHPSpreadsheet many times. If you are a lazy programmer, ExcelCreator is a perfect tool to access commonly-used features in PHPSpreadsheet in a convenient way.
 
-## Notes
-- ExcelCreator built for CodeIgniter4 library, but you can still use it everywhere by modifying the `require` section on top line of the class.
-- This documentation assumes that you have already experienced using PHPSpreadsheet
+## Installation
+The only thing you need to install ExcelCreator is via [Composer](https://getcomposer.org/) with the following options.
+
+### With existing `composer.json` file
+If you have existing `composer.json` file, add a requirement pointed to `"adnzaki/excel-creator": "^1.0"`
+```
+{
+    "require": {
+        "adnzaki/excel-creator": "^1.0"
+    }
+}
+```
+And then run `composer update` to install it.
+
+### No `composer.json` file
+Run `composer require adnzaki/excel-creator` to install it and automatically creates `composer.json` file.
+
+## Install the latest source code
+If you prefer get the latest source code of ExcelCreator, simply change the version from `^1.0` to `dev-main`, and then run `composer update` to switch the source code.
 
 ## Usage
 This section will guide you how to transform PHPSpreadsheet original use into ExcelCreator
 - Initializing ExcelCreator<br>
-Assumes you have imported/included ExcelCreator, simply make an object 
 ```
+require 'vendor/autoload.php'
 $excel = new ExcelCreator();
 ```
 
