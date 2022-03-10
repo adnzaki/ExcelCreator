@@ -1,6 +1,6 @@
 {
     "name": "adnzaki/excel-creator",
-    "type": "library",
+    "type": "project",
     "license": "MIT",    
     "authors": [
         {
