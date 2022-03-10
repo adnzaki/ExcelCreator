@@ -14,8 +14,6 @@
  * @copyright   Wolestech DevTeam
  */
 
-require APPPATH . 'ThirdParty/spreadsheet/vendor/autoload.php';
-
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XLsxReader;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx as XLsxWriter;
