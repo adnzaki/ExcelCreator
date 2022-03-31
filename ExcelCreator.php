@@ -120,13 +120,17 @@ class ExcelCreator
      */
     public function save($filename, $excelType = 'Xlsx')
     {
-        if($excelType === 'Xlsx') {
-            header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        }
-        
+        $contentType = [
+            'Xlsx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Xls'   => 'application/vnd.ms-excel'
+        ];
+
+        header('Content-type: ' . $contentType[$excelType]);
         header("Content-Disposition: attachment;filename={$filename}");
         header('Cache-Control: max-age=0');
         $writer = IOFactory::createWriter($this->spreadsheet, $excelType);
+
+        ob_end_clean();
         $writer->save('php://output');
     }
 
