@@ -1,149 +1,167 @@
 # ExcelCreator
-### <i>A simple way to work with PHPSpreadsheet</i>
+
+### <i>A simple and elegant way to work with PHPSpreadsheet</i>
 
 ## Introduction
-<strong>ExcelCreator</strong> is an additional tool that enables you to use PHPSpreadsheet
-more easily. ExcelCreator simplifies method calls like `$spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(12)` into `$excel->setColumnWidth('A', 12)`.
-You may think it does not really help you, but imagine that you have to write code like you usually use in PHPSpreadsheet many times. If you are a lazy programmer, ExcelCreator is a perfect tool to access commonly-used features in PHPSpreadsheet in a convenient way.
+
+<strong>ExcelCreator</strong> is a modern wrapper around PHPSpreadsheet that simplifies the most commonly used tasks in reading and writing Excel files. It provides two main classes: `Writer` for creating and formatting spreadsheets, and `Reader` for loading and reading spreadsheet content.
 
 ## Installation
-The only thing you need to install ExcelCreator is via [Composer](https://getcomposer.org/) with the following options.
 
-### With existing `composer.json` file
-If you have existing `composer.json` file, add a requirement pointed to `"adnzaki/excel-creator": "^1.0"`
-```
+Install ExcelCreator using [Composer](https://getcomposer.org/):
+
+### With existing `composer.json`
+
+```json
 {
     "require": {
-        "adnzaki/excel-creator": "^1.0"
+        "adnzaki/excel-creator": "^2.0"
     }
 }
 ```
-And then run `composer update` to install it.
 
-### No `composer.json` file
-Run `composer require adnzaki/excel-creator` to install it and automatically creates `composer.json` file.
+Then run:
 
-## Install the latest source code
-If you prefer get the latest source code of ExcelCreator, simply change the version from `^1.0` to `dev-main`, and then run `composer update` to switch the source code.
+```bash
+composer update
+```
+
+### Without `composer.json`
+
+```bash
+composer require adnzaki/excel-creator
+```
+
+## Install the Latest Source Code
+
+If you prefer the latest development version:
+
+```json
+{
+    "require": {
+        "adnzaki/excel-creator": "dev-main"
+    }
+}
+```
+
+Then run `composer update`.
 
 ## Usage
-This section will guide you how to transform PHPSpreadsheet original use into ExcelCreator
-- Initializing ExcelCreator<br>
-```
-require 'vendor/autoload.php'
-$excel = new ExcelCreator();
+
+This library provides two main classes under the namespace `ExcelTools`:
+
+### 📝 Writing Excel Files with `Writer`
+
+```php
+use ExcelTools\Writer;
+
+$excel = new Writer();
 ```
 
-- Call the Xlsx writer
-```
-$excel->writer($excel->spreadsheet);
+* Saving file to browser:
+
+```php
+$excel->save('hello_world.xlsx');
 ```
 
-- Call the Xlsx reader
-```
-$excel->reader($excel->spreadsheet);
-```
+* Apply styles to cell range:
 
-- Saving excel file to client's browser not get more simple<br>
-```
-$excel->save('hello world.xlsx'); // save in Excel 2007 format
-// or
-$excel->save('hello world.xlsx', 'Xls'); // save in Xls format
-```
-Note that you have to set Content-Type header before use this method. 
-And also the second parameter should follow the PHPSpreadsheet file type.
-
-- Apply styles into cells<br>
-The best way to apply style is using array and pass it as parameter
-```
-$dataStyle = [            
+```php
+$style = [
     'font' => [
         'name' => 'Arial',
         'size' => 10,
     ],
-    'border' => [
-        'borderStyle' => $excel->border::BORDER_THIN,
-        'color' => $excel->color::COLOR_BLACK,
-    ],
+    'borders' => [
+        'allBorders' => [
+            'borderStyle' => $excel->border::BORDER_THIN,
+            'color' => ['argb' => $excel->color::COLOR_BLACK],
+        ],
+    ]
 ];
-
-$excel->applyStyle($dataStyle, 'A2:D10');
+$excel->applyStyle($style, 'A2:D10');
 ```
-Styles that have been supported in ExcelCreator are `Alignment`, `Border`, `Color`, `Fill` and `Font`
 
-- Fill cells with data<br>
-ExcelCreator provides simple way to fill cells with your data/value. ExcelCreator uses method chaining from PHPSpreadsheet `Spreadsheet::getActiveSheet()->fromArray($value);`
-```
+* Fill data:
+
+```php
 $data = [
-    ['Name',        'Place of birth'],
-    ['Adnan Zaki',  'Jakarta'],
-    ['Dien Azizah', 'Bojonegoro']
+    ['Name', 'City'],
+    ['Zaki', 'Jakarta'],
+    ['Dien', 'Bojonegoro']
 ];
-
-$excel->fillCell($data); // fill cell from A1
-// or 
-$excel->fillCell($data, 'A2'); // fill cell from A2
+$excel->fillCell($data, 'A1');
 ```
 
-- Wrapping text<br>
-Wrapping a cell is get easier
-```
+* Text wrapping:
+
+```php
 $excel->wrapText('B5');
 ```
-Note: Wrapped text can be overridden if you set style array after `wrapText()` without
-defining wrapText in alignment.
 
+* Merge & unmerge:
 
-- Merge and unmerge cells<br>
-Although merging and unmerging cells in PHPSpreadsheet is easy, but we make it more simple.
-```
+```php
 $excel->mergeCells('A1:B1');
 $excel->unmergeCells('A1:B1');
 ```
 
-- Setting column's width<br>
-Have you ever get tired of writing `$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(12);`
-just to set column's width? Here is how ExcelCreator makes it easy for you:
-```
-$excel->setColumnWidth('D', 12);
+* Column widths:
 
-// or
-
-$excel->setColumnWidth('D'); // will create auto size
-```
-Or if you would like to set some columns with the same size:
-```
-$columns = ['A', 'B', 'C'];
-$excel->setMultipleColumnsWidth($columns, 12);
-
-or
-
-$excel->setMultipleColumnsWidth($columns); // will create auto size for those columns
-```
-And if you would like to set default column's width
-```
-$excel->setDefaultColumnWidth(12);
+```php
+$excel->setColumnWidth('A', 20);
+$excel->setMultipleColumnsWidth(['B', 'C'], 25);
+$excel->setDefaultColumnWidth(15);
 ```
 
-- Setting row's height<br>
-Setting a row's height is much similar like setting column's width
-```
-$excel->setRowHeight('5', 20);
-```
-Or if you would like to set some rows with the same height:
-```
-$excel->setMultipleRowsHeight('1-5', 20);
-```
-But now `setMultipleRowsHeight()` supports more multiple rows:
-```
-$excel->setMultipleRowsHeight(['1' => 40, '2' => 30 '3-6' => 20]);
-```
-And if you would like to set default row's height
-```
+* Row heights:
+
+```php
+$excel->setRowHeight(3, 25);
+$excel->setMultipleRowsHeight(['1' => 40, '3-5' => 25]);
 $excel->setDefaultRowHeight(20);
 ```
-- Set default font<br>
-Setting default font is as easy as follow:
+
+* Set default font:
+
+```php
+$excel->setDefaultFont('Calibri', 11);
 ```
-$excel->setDefaultFont('Arial', 12)
+
+---
+
+### 📖 Reading Excel Files with `Reader`
+
+```php
+use ExcelTools\Reader;
+
+$reader = new Reader();
+$reader->loadFromFile('SampleFile.xlsx');
 ```
+
+* Get all data from the active sheet:
+
+```php
+$data = $reader->getSheetData(true); // true = first row as headers
+print_r($data);
+```
+
+* Get sheet names:
+
+```php
+$sheetNames = $reader->getSheetNames();
+```
+
+* Switch to another sheet:
+
+```php
+$reader->setActiveSheet('Sheet2');
+```
+
+## License
+
+MIT
+
+## Author
+
+Adnan Zaki – [https://github.com/adnzaki](https://github.com/adnzaki)
