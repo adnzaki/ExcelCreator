@@ -1,9 +1,9 @@
 <?php
 
-require 'vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 // create new object
-$excel = new ExcelCreator();
+$excel = new \ExcelTools\Writer();
 
 // initialize PHPSpreadsheet
 $spreadsheet = $excel->spreadsheet;

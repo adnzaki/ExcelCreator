@@ -10,11 +10,13 @@
         }
     ],
     "autoload": {
-        "files": [ "ExcelCreator.php" ]
+        "psr-4": {
+            "ExcelTools\\": "src/"
+        }
     },
     "require": {
-        "php": "^7.4 || ^8.0",
-        "phpoffice/phpspreadsheet": "^1.28"
+        "php": "^8.1 || ^8.2 || ^8.3",
+        "phpoffice/phpspreadsheet": "^4.4"
     },
     "minimum-stability": "dev"
 }

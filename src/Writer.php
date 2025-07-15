@@ -1,4 +1,4 @@
-<?php
+<?php namespace ExcelTools;
 
 /**
  * ExcelCreator class is a simple and easy way to use PHPSpreadsheet in CodeIgniter4.
@@ -25,7 +25,7 @@ use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Font;
 
-class ExcelCreator
+class Writer
 {
     /**
      * The Spreadsheet object
