@@ -15,7 +15,7 @@ Install ExcelCreator using [Composer](https://getcomposer.org/):
 ```json
 {
     "require": {
-        "adnzaki/excel-creator": "^2.0"
+        "adnzaki/excel-creator": "^2.1"
     }
 }
 ```

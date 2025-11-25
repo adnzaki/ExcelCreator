@@ -30,42 +30,42 @@ class Writer
     /**
      * The Spreadsheet object
      * 
-     * @var object
+     * @var \PhpOffice\PhpSpreadsheet\Spreadsheet
      */
     public $spreadsheet;
 
     /**
      * The Color object
      * 
-     * @var object
+     * @var \PhpOffice\PhpSpreadsheet\Style\Color
      */
     public $color;
 
     /**
      * The Alighment style object
      * 
-     * @var object
+     * @var \PhpOffice\PhpSpreadsheet\Style\Alignment
      */
     public $alignment;
 
     /**
      * The Border style object
      * 
-     * @var object
+     * @var \PhpOffice\PhpSpreadsheet\Style\Border
      */
     public $border;
 
     /**
      * The Fill style object
      * 
-     * @var object
+     * @var \PhpOffice\PhpSpreadsheet\Style\Fill
      */
     public $fill;
 
     /**
      * The Font style object
      * 
-     * @var object
+     * @var \PhpOffice\PhpSpreadsheet\Style\Font
      */
     public $font;
 
