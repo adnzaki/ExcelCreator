@@ -1,408 +1,959 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ExcelCreator — Fast & Lightweight PHP Spreadsheet Wrapper</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        code: ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        lightning: '#f59e0b',
-                        flashblue: '#3b82f6',
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Plus Jakarta Sans', 'sans-serif'],
+              code: ['JetBrains Mono', 'monospace'],
+            },
+            colors: {
+              lightning: '#f59e0b',
+              flashblue: '#3b82f6',
+            },
+          },
+        },
+      }
     </script>
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        .code-font {
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .scrollbar-none::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-none {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .code-font {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .scrollbar-none::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-none {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
     </style>
-</head>
+  </head>
 
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
-
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none overflow-hidden z-0">
-        <div class="absolute -top-40 left-1/4 w-[600px] h-[600px] bg-emerald-500/20 rounded-full blur-[140px]"></div>
-        <div class="absolute -top-20 right-1/4 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px]"></div>
-        <div class="absolute top-40 left-1/3 w-[300px] h-[300px] bg-amber-500/10 rounded-full blur-[100px]"></div>
+  <body
+    class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white"
+  >
+    <div
+      class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none overflow-hidden z-0"
+    >
+      <div
+        class="absolute -top-40 left-1/4 w-[600px] h-[600px] bg-emerald-500/20 rounded-full blur-[140px]"
+      ></div>
+      <div
+        class="absolute -top-20 right-1/4 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px]"
+      ></div>
+      <div
+        class="absolute top-40 left-1/3 w-[300px] h-[300px] bg-amber-500/10 rounded-full blur-[100px]"
+      ></div>
     </div>
 
-    <main class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-16 pb-16 flex-1 w-full">
+    <main
+      class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-16 pb-16 flex-1 w-full"
+    >
+      <header class="text-center mb-16 space-y-4">
+        <div
+          class="inline-flex items-center space-x-2 bg-emerald-950/60 border border-emerald-500/40 px-4 py-1.5 rounded-full backdrop-blur-sm shadow-lg"
+        >
+          <i
+            class="fa-solid fa-bolt text-emerald-400 animate-bounce text-xs"
+          ></i>
+          <span
+            class="text-xs font-code text-emerald-300 font-medium uppercase tracking-wider"
+            >Blazing Fast Spreadsheet Operations</span
+          >
+        </div>
 
-        <header class="text-center mb-16 space-y-4">
-            <div class="inline-flex items-center space-x-2 bg-emerald-950/60 border border-emerald-500/40 px-4 py-1.5 rounded-full backdrop-blur-sm shadow-lg">
-                <i class="fa-solid fa-bolt text-emerald-400 animate-bounce text-xs"></i>
-                <span class="text-xs font-code text-emerald-300 font-medium uppercase tracking-wider">Blazing Fast Spreadsheet Operations</span>
+        <h1
+          class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight bg-gradient-to-r from-white via-emerald-300 to-amber-400 bg-clip-text text-transparent"
+        >
+          ExcelCreator
+        </h1>
+
+        <p
+          class="text-slate-300 max-w-xl mx-auto text-base sm:text-lg leading-relaxed"
+        >
+          A radical wrapper built on top of PhpSpreadsheet to maximize
+          performance, compressing hours of formatting logic into elegant,
+          single-line actions.
+        </p>
+      </header>
+
+      <section class="space-y-12 w-full">
+        <!-- Composer Box -->
+        <div
+          class="group relative bg-gradient-to-b from-slate-800/80 via-slate-900/90 to-slate-950/90 border border-slate-700/60 hover:border-emerald-500/50 rounded-3xl p-6 sm:p-8 transition-all duration-300 backdrop-blur-md shadow-2xl"
+        >
+          <div
+            class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6"
+          >
+            <div class="flex items-center space-x-3">
+              <div
+                class="bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 p-3 rounded-2xl"
+              >
+                <i class="fa-solid fa-terminal text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-white">Instantly Charged</h3>
+                <p class="text-xs text-slate-400">
+                  Zero dependencies beyond PhpSpreadsheet
+                </p>
+              </div>
             </div>
+            <span
+              class="w-fit font-code text-xs text-emerald-400 bg-emerald-950/80 px-3 py-1.5 rounded-md border border-emerald-800/60 font-semibold tracking-wide block"
+            >
+              STABLE • v2.0.1
+            </span>
+          </div>
 
-            <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight bg-gradient-to-r from-white via-emerald-300 to-amber-400 bg-clip-text text-transparent">
-                ExcelCreator
-            </h1>
+          <div
+            class="bg-slate-950 border border-slate-800 rounded-xl p-4 font-code text-xs text-slate-300 shadow-inner overflow-x-auto whitespace-nowrap scrollbar-none"
+          >
+            <div class="flex items-center space-x-2 text-emerald-400 mb-2">
+              <i class="fa-solid fa-code text-[10px]"></i>
+              <span
+                class="font-bold text-[11px] uppercase tracking-wider text-slate-500"
+                >Composer Command</span
+              >
+            </div>
+            <div class="text-slate-300 select-all">
+              <span class="text-emerald-500">$</span> composer require
+              adnzaki/excel-creator
+            </div>
+          </div>
+        </div>
 
-            <p class="text-slate-300 max-w-xl mx-auto text-base sm:text-lg leading-relaxed">
-                A radical wrapper built on top of PhpSpreadsheet to maximize performance, compressing hours of formatting logic into elegant, single-line actions.
+        <!-- Grid Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            class="bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-slate-700/50 p-6 rounded-2xl flex flex-col justify-between hover:border-emerald-500/40 transition-all hover:shadow-lg hover:shadow-emerald-950/20"
+          >
+            <div>
+              <div class="text-emerald-400 text-xl mb-3">
+                <i class="fa-solid fa-file-export"></i>
+              </div>
+              <h4 class="text-lg font-bold text-emerald-300 font-code">
+                ExcelTools\Writer
+              </h4>
+              <p class="text-slate-300 text-sm mt-1 leading-relaxed">
+                Handles document genesis, automatic cell alignments, array
+                hydration, styling presets, dynamic column layout manipulation,
+                and fast output stream piping.
+              </p>
+            </div>
+          </div>
+          <div
+            class="bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-slate-700/50 p-6 rounded-2xl flex flex-col justify-between hover:border-cyan-500/40 transition-all hover:shadow-lg hover:shadow-cyan-950/20"
+          >
+            <div>
+              <div class="text-cyan-400 text-xl mb-3">
+                <i class="fa-solid fa-file-import"></i>
+              </div>
+              <h4 class="text-lg font-bold text-cyan-300 font-code">
+                ExcelTools\Reader
+              </h4>
+              <p class="text-slate-300 text-sm mt-1 leading-relaxed">
+                Extends Writer natively. Effortlessly processes batch files,
+                extracts index coordinates, resolves layout dimensions, and
+                converts Excel timestamp blocks to clean dates.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code Playground Section -->
+        <div class="space-y-6">
+          <h3
+            class="text-2xl font-extrabold text-white flex items-center gap-2 pt-4"
+          >
+            <i class="fa-solid fa-bolt-lightning text-amber-400 text-lg"></i>
+            Implementation Playground
+          </h3>
+
+          <!-- Code 1 -->
+          <div
+            class="bg-slate-900/80 border border-slate-700/70 rounded-2xl overflow-hidden shadow-xl"
+          >
+            <div
+              class="bg-slate-800/90 px-5 py-3 border-b border-slate-700/60 flex justify-between items-center"
+            >
+              <span class="text-xs font-code text-slate-200 font-medium"
+                ><i
+                  class="fa-solid fa-circle-chevron-right text-emerald-400 mr-2"
+                ></i
+                >1. Basic Data Export</span
+              >
+              <span
+                class="text-[10px] font-code bg-emerald-950 text-emerald-400 border border-emerald-900/50 px-2 py-0.5 rounded"
+                >Writer.php</span
+              >
+            </div>
+            <div
+              class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap"
+            >
+              <p><span class="text-purple-400">use</span> ExcelTools\Writer;</p>
+              <p>
+                <span class="text-blue-400">$excel</span> =
+                <span class="text-purple-400">new</span>
+                <span class="text-teal-400">Writer</span>();
+              </p>
+              <br />
+              <p><span class="text-blue-400">$data</span> = [</p>
+              <p class="pl-4">
+                [<span class="text-emerald-400">'Product Name'</span>,
+                <span class="text-emerald-400">'Stock'</span>,
+                <span class="text-emerald-400">'Price'</span>],
+              </p>
+              <p class="pl-4">
+                [<span class="text-emerald-400">'Mechanical Keyboard'</span>,
+                <span class="text-orange-400">45</span>,
+                <span class="text-orange-400">89.99</span>],
+              </p>
+              <p class="pl-4">
+                [<span class="text-emerald-400">'Wireless Mouse'</span>,
+                <span class="text-orange-400">120</span>,
+                <span class="text-orange-400">24.50</span>]
+              </p>
+              <p>];</p>
+              <br />
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >fillCell</span
+                >(<span class="text-blue-400">$data</span>,
+                <span class="text-emerald-400">'A1'</span>);
+              </p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >save</span
+                >(<span class="text-emerald-400">'Inventory_Report.xlsx'</span
+                >);
+              </p>
+            </div>
+          </div>
+
+          <!-- Code 2 -->
+          <div
+            class="bg-slate-900/80 border border-slate-700/70 rounded-2xl overflow-hidden shadow-xl"
+          >
+            <div
+              class="bg-slate-800/90 px-5 py-3 border-b border-slate-700/60 flex justify-between items-center"
+            >
+              <span class="text-xs font-code text-slate-200 font-medium"
+                ><i
+                  class="fa-solid fa-circle-chevron-right text-emerald-400 mr-2"
+                ></i
+                >2. Advanced Formatting & Merging</span
+              >
+              <span
+                class="text-[10px] font-code bg-emerald-950 text-emerald-400 border border-emerald-900/50 px-2 py-0.5 rounded"
+                >Writer.php</span
+              >
+            </div>
+            <div
+              class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap"
+            >
+              <p><span class="text-purple-400">use</span> ExcelTools\Writer;</p>
+              <p>
+                <span class="text-blue-400">$excel</span> =
+                <span class="text-purple-400">new</span>
+                <span class="text-teal-400">Writer</span>();
+              </p>
+              <br />
+              <p>
+                <span class="text-slate-500"
+                  >// Configure dimensions & fonts</span
+                >
+              </p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >setDefaultFont</span
+                >(<span class="text-emerald-400">'Arial'</span>,
+                <span class="text-orange-400">12</span>);
+              </p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >mergeCells</span
+                >(<span class="text-emerald-400">'A1:C1'</span>);
+              </p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >fillCell</span
+                >([[<span class="text-emerald-400"
+                  >'MONTHLY FINANCIAL REPORT'</span
+                >]], <span class="text-emerald-400">'A1'</span>);
+              </p>
+              <br />
+              <p>
+                <span class="text-slate-500"
+                  >// Apply rich array styles directly</span
+                >
+              </p>
+              <p><span class="text-blue-400">$headerStyle</span> = [</p>
+              <p class="pl-4">
+                <span class="text-emerald-400">'font'</span> =&gt; [<span
+                  class="text-emerald-400"
+                  >'bold'</span
+                >
+                =&gt; <span class="text-purple-400">true</span>,
+                <span class="text-emerald-400">'color'</span> =&gt; [<span
+                  class="text-emerald-400"
+                  >'rgb'</span
+                >
+                =&gt; <span class="text-emerald-400">'FFFFFF'</span>]],
+              </p>
+              <p class="pl-4">
+                <span class="text-emerald-400">'fill'</span> =&gt; [<span
+                  class="text-emerald-400"
+                  >'fillType'</span
+                >
+                =&gt; $excel->fill::<span class="text-amber-400"
+                  >FILL_SOLID</span
+                >, <span class="text-emerald-400">'color'</span> =&gt; [<span
+                  class="text-emerald-400"
+                  >'argb'</span
+                >
+                =&gt; <span class="text-emerald-400">'D9E1F2'</span>]],
+              </p>
+              <p class="pl-4">
+                <span class="text-emerald-400">'alignment'</span> =&gt; [<span
+                  class="text-emerald-400"
+                  >'horizontal'</span
+                >
+                =&gt; $excel->alignment::<span class="text-amber-400"
+                  >HORIZONTAL_CENTER</span
+                >]
+              </p>
+              <p>];</p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >applyStyle</span
+                >(<span class="text-blue-400">$headerStyle</span>,
+                <span class="text-emerald-400">'A1:C1'</span>);
+              </p>
+              <br />
+              <p>
+                <span class="text-slate-500"
+                  >// Adjust layouts dynamically</span
+                >
+              </p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >setMultipleColumnsWidth</span
+                >([<span class="text-emerald-400">'A'</span>,
+                <span class="text-emerald-400">'B'</span>,
+                <span class="text-emerald-400">'C'</span>],
+                <span class="text-orange-400">20</span>);
+              </p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >setRowHeight</span
+                >(<span class="text-orange-400">1</span>,
+                <span class="text-orange-400">35</span>);
+              </p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >save</span
+                >(<span class="text-emerald-400">'Styled_Report.xlsx'</span>);
+              </p>
+            </div>
+          </div>
+
+          <!-- Code 3 -->
+          <div
+            class="bg-slate-900/80 border border-slate-700/70 rounded-2xl overflow-hidden shadow-xl"
+          >
+            <div
+              class="bg-slate-800/90 px-5 py-3 border-b border-slate-700/60 flex justify-between items-center"
+            >
+              <span class="text-xs font-code text-slate-200 font-medium"
+                ><i
+                  class="fa-solid fa-circle-chevron-right text-emerald-400 mr-2"
+                ></i
+                >3. Multi-Sheet Orchestration</span
+              >
+              <span
+                class="text-[10px] font-code bg-emerald-950 text-emerald-400 border border-emerald-900/50 px-2 py-0.5 rounded"
+                >Writer.php</span
+              >
+            </div>
+            <div
+              class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap"
+            >
+              <p><span class="text-purple-400">use</span> ExcelTools\Writer;</p>
+              <p>
+                <span class="text-blue-400">$excel</span> =
+                <span class="text-purple-400">new</span>
+                <span class="text-teal-400">Writer</span>();
+              </p>
+              <br />
+              <p>
+                <span class="text-slate-500">// Sheet 1 (Default Sheet)</span>
+              </p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-blue-400"
+                  >spreadsheet</span
+                >-&gt;<span class="text-amber-400">getActiveSheet</span
+                >()-&gt;<span class="text-amber-400">setTitle</span>(<span
+                  class="text-emerald-400"
+                  >'Active Users'</span
+                >);
+              </p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >fillCell</span
+                >([[<span class="text-emerald-400">'John Doe'</span>,
+                <span class="text-emerald-400">'Admin'</span>]],
+                <span class="text-emerald-400">'A1'</span>);
+              </p>
+              <br />
+              <p>
+                <span class="text-slate-500"
+                  >// Create and switch to Sheet 2 cleanly</span
+                >
+              </p>
+              <p>
+                <span class="text-blue-400">$newSheet</span> =
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-blue-400"
+                  >spreadsheet</span
+                >-&gt;<span class="text-amber-400">createSheet</span>();
+              </p>
+              <p>
+                <span class="text-blue-400">$newSheet</span>-&gt;<span
+                  class="text-amber-400"
+                  >setTitle</span
+                >(<span class="text-emerald-400">'Archived Logs'</span>);
+              </p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >setActiveSheet</span
+                >(<span class="text-orange-400">1</span>);
+                <span class="text-slate-500">// Switch by index pointer</span>
+              </p>
+              <br />
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >fillCell</span
+                >([[<span class="text-emerald-400">'Old Log Entry'</span>,
+                <span class="text-emerald-400">'2024-12-10'</span>]],
+                <span class="text-emerald-400">'A1'</span>);
+              </p>
+              <p>
+                <span class="text-blue-400">$excel</span>-&gt;<span
+                  class="text-amber-400"
+                  >save</span
+                >(<span class="text-emerald-400">'MultiSheet_System.xlsx'</span
+                >);
+              </p>
+            </div>
+          </div>
+
+          <!-- Code 4 -->
+          <div
+            class="bg-slate-900/80 border border-slate-700/70 rounded-2xl overflow-hidden shadow-xl"
+          >
+            <div
+              class="bg-slate-800/90 px-5 py-3 border-b border-slate-700/60 flex justify-between items-center"
+            >
+              <span class="text-xs font-code text-slate-200 font-medium"
+                ><i
+                  class="fa-solid fa-circle-chevron-right text-cyan-400 mr-2"
+                ></i
+                >4. Advanced File Reading & Associative Array Parsing</span
+              >
+              <span
+                class="text-[10px] font-code bg-cyan-950 text-cyan-400 border border-cyan-900 px-2 py-0.5 rounded"
+                >Reader.php</span
+              >
+            </div>
+            <div
+              class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap"
+            >
+              <p><span class="text-purple-400">use</span> ExcelTools\Reader;</p>
+              <p>
+                <span class="text-blue-400">$reader</span> =
+                <span class="text-purple-400">new</span>
+                <span class="text-teal-400">Reader</span>();
+              </p>
+              <p>
+                <span class="text-blue-400">$reader</span>-&gt;<span
+                  class="text-amber-400"
+                  >loadFromFile</span
+                >(<span class="text-blue-400">$_FILES</span>[<span
+                  class="text-emerald-400"
+                  >'excel_file'</span
+                >][<span class="text-emerald-400">'tmp_name'</span>]);
+              </p>
+              <br />
+              <p>
+                <span class="text-slate-500"
+                  >// Fetch data using the first row as array keys
+                  ('withHeaderRow' = true)</span
+                >
+              </p>
+              <p>
+                <span class="text-slate-500"
+                  >// This automatically transforms complex Excel Date objects
+                  into 'Y-m-d' strings</span
+                >
+              </p>
+              <p>
+                <span class="text-blue-400">$records</span> =
+                <span class="text-blue-400">$reader</span>-&gt;<span
+                  class="text-amber-400"
+                  >getSheetData</span
+                >(<span class="text-purple-400">true</span>);
+              </p>
+              <br />
+              <p>
+                <span class="text-purple-400">foreach</span> (<span
+                  class="text-blue-400"
+                  >$records</span
+                >
+                <span class="text-purple-400">as</span>
+                <span class="text-blue-400">$row</span>) {
+              </p>
+              <p class="pl-4">
+                <span class="text-slate-500"
+                  >// Easily access via named spreadsheet header column
+                  headers</span
+                >
+              </p>
+              <p class="pl-4">
+                <span class="text-blue-400">$email</span> =
+                <span class="text-blue-400">$row</span>[<span
+                  class="text-emerald-400"
+                  >'Email Address'</span
+                >] ?? <span class="text-emerald-400">''</span>;
+              </p>
+              <p class="pl-4">
+                <span class="text-blue-400">$birthday</span> =
+                <span class="text-blue-400">$row</span>[<span
+                  class="text-emerald-400"
+                  >'Birth Date'</span
+                >] ?? <span class="text-emerald-400">''</span>;
+                <span class="text-slate-500"
+                  >// Returns clean string '1995-08-24'</span
+                >
+              </p>
+              <p>}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Native Instance Callout -->
+        <div
+          class="bg-gradient-to-r from-emerald-950/40 to-slate-900/60 border border-emerald-500/40 rounded-2xl p-5 shadow-xl backdrop-blur-sm"
+        >
+          <!-- Mobile: icon + title sebaris, konten di bawah -->
+          <div class="flex flex-col gap-3 sm:hidden">
+            <div class="flex items-center gap-3">
+              <div
+                class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 p-2.5 rounded-xl shrink-0"
+              >
+                <i class="fa-solid fa-unlock-keyhole text-base"></i>
+              </div>
+              <h4 class="text-sm font-bold text-emerald-300 font-code">
+                $excel->spreadsheet
+              </h4>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Even though ExcelCreator simplifies common functionalities, you
+              will never lose control. Through the
+              <code
+                class="text-emerald-400 bg-slate-950 px-1 py-0.5 rounded font-code"
+                >spreadsheet</code
+              >
+              property, you can directly access the native instance of
+              <strong class="text-emerald-200"
+                >PhpOffice\PhpSpreadsheet\Spreadsheet</strong
+              >
+              to fully utilize all advanced features built into PHPSpreadsheet
+              without any limitations.
             </p>
-        </header>
+          </div>
 
-        <section class="space-y-12 w-full">
-
-            <!-- Composer Box -->
-            <div class="group relative bg-gradient-to-b from-slate-800/80 via-slate-900/90 to-slate-950/90 border border-slate-700/60 hover:border-emerald-500/50 rounded-3xl p-6 sm:p-8 transition-all duration-300 backdrop-blur-md shadow-2xl">
-                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-                    <div class="flex items-center space-x-3">
-                        <div class="bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 p-3 rounded-2xl">
-                            <i class="fa-solid fa-terminal text-lg"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white">Instantly Charged</h3>
-                            <p class="text-xs text-slate-400">Zero dependencies beyond PhpSpreadsheet</p>
-                        </div>
-                    </div>
-                    <span class="w-fit font-code text-xs text-emerald-400 bg-emerald-950/80 px-3 py-1.5 rounded-md border border-emerald-800/60 font-semibold tracking-wide block">
-                        STABLE • v2.0.1
-                    </span>
-                </div>
-
-                <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 font-code text-xs text-slate-300 shadow-inner overflow-x-auto whitespace-nowrap scrollbar-none">
-                    <div class="flex items-center space-x-2 text-emerald-400 mb-2">
-                        <i class="fa-solid fa-code text-[10px]"></i>
-                        <span class="font-bold text-[11px] uppercase tracking-wider text-slate-500">Composer Command</span>
-                    </div>
-                    <div class="text-slate-300 select-all">
-                        <span class="text-emerald-500">$</span> composer require adnzaki/excel-creator
-                    </div>
-                </div>
+          <!-- Desktop: icon di kiri, semua konten di kanan -->
+          <div class="hidden sm:flex items-start gap-4">
+            <div
+              class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 p-2.5 rounded-xl mt-0.5 shrink-0"
+            >
+              <i class="fa-solid fa-unlock-keyhole text-base"></i>
             </div>
-
-            <!-- Grid Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-slate-700/50 p-6 rounded-2xl flex flex-col justify-between hover:border-emerald-500/40 transition-all hover:shadow-lg hover:shadow-emerald-950/20">
-                    <div>
-                        <div class="text-emerald-400 text-xl mb-3"><i class="fa-solid fa-file-export"></i></div>
-                        <h4 class="text-lg font-bold text-emerald-300 font-code">ExcelTools\Writer</h4>
-                        <p class="text-slate-300 text-sm mt-1 leading-relaxed">
-                            Handles document genesis, automatic cell alignments, array hydration, styling presets, dynamic column layout manipulation, and fast output stream piping.
-                        </p>
-                    </div>
-                </div>
-                <div class="bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-slate-700/50 p-6 rounded-2xl flex flex-col justify-between hover:border-cyan-500/40 transition-all hover:shadow-lg hover:shadow-cyan-950/20">
-                    <div>
-                        <div class="text-cyan-400 text-xl mb-3"><i class="fa-solid fa-file-import"></i></div>
-                        <h4 class="text-lg font-bold text-cyan-300 font-code">ExcelTools\Reader</h4>
-                        <p class="text-slate-300 text-sm mt-1 leading-relaxed">
-                            Extends Writer natively. Effortlessly processes batch files, extracts index coordinates, resolves layout dimensions, and converts Excel timestamp blocks to clean dates.
-                        </p>
-                    </div>
-                </div>
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-emerald-300 font-code">
+                $excel->spreadsheet
+              </h4>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Even though ExcelCreator simplifies common functionalities, you
+                will never lose control. Through the
+                <code
+                  class="text-emerald-400 bg-slate-950 px-1 py-0.5 rounded font-code"
+                  >spreadsheet</code
+                >
+                property, you can directly access the native instance of
+                <strong class="text-emerald-200"
+                  >PhpOffice\PhpSpreadsheet\Spreadsheet</strong
+                >
+                to fully utilize all advanced features built into PHPSpreadsheet
+                without any limitations.
+              </p>
             </div>
+          </div>
+        </div>
 
-            <!-- Code Playground Section -->
-            <div class="space-y-6">
-                <h3 class="text-2xl font-extrabold text-white flex items-center gap-2 pt-4">
-                    <i class="fa-solid fa-bolt-lightning text-amber-400 text-lg"></i> Implementation Playground
-                </h3>
+        <!-- API Reference Method -->
+        <div class="space-y-8 pt-6">
+          <h3
+            class="text-2xl font-extrabold text-white flex items-center gap-2"
+          >
+            <i class="fa-solid fa-book-bookmark text-amber-400 text-lg"></i> API
+            Method Reference
+          </h3>
 
-                <!-- Code 1 -->
-                <div class="bg-slate-900/80 border border-slate-700/70 rounded-2xl overflow-hidden shadow-xl">
-                    <div class="bg-slate-800/90 px-5 py-3 border-b border-slate-700/60 flex justify-between items-center">
-                        <span class="text-xs font-code text-slate-200 font-medium"><i class="fa-solid fa-circle-chevron-right text-emerald-400 mr-2"></i>1. Basic Data Export</span>
-                        <span class="text-[10px] font-code bg-emerald-950 text-emerald-400 border border-emerald-900/50 px-2 py-0.5 rounded">Writer.php</span>
-                    </div>
-                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap">
-                        <p><span class="text-purple-400">use</span> ExcelTools\Writer;</p>
-                        <p><span class="text-blue-400">$excel</span> = <span class="text-purple-400">new</span> <span class="text-teal-400">Writer</span>();</p>
-                        <br>
-                        <p><span class="text-blue-400">$data</span> = [</p>
-                        <p class="pl-4">[<span class="text-emerald-400">'Product Name'</span>, <span class="text-emerald-400">'Stock'</span>, <span class="text-emerald-400">'Price'</span>],</p>
-                        <p class="pl-4">[<span class="text-emerald-400">'Mechanical Keyboard'</span>, <span class="text-orange-400">45</span>, <span class="text-orange-400">89.99</span>],</p>
-                        <p class="pl-4">[<span class="text-emerald-400">'Wireless Mouse'</span>, <span class="text-orange-400">120</span>, <span class="text-orange-400">24.50</span>]</p>
-                        <p>];</p>
-                        <br>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">fillCell</span>(<span class="text-blue-400">$data</span>, <span class="text-emerald-400">'A1'</span>);</p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">save</span>(<span class="text-emerald-400">'Inventory_Report.xlsx'</span>);</p>
-                    </div>
+          <!-- Writer Methods -->
+          <div class="space-y-4">
+            <h4
+              class="text-xs font-code font-bold tracking-widest text-emerald-400 uppercase bg-emerald-950/40 border border-emerald-900/50 w-fit px-3 py-1 rounded-md"
+            >
+              Class: ExcelTools\Writer Methods
+            </h4>
+
+            <div class="grid grid-cols-1 gap-4">
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-emerald-400"
+                    >save(string $filename, string $excelType = 'Xlsx')</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >void</span
+                  >
                 </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Saves the spreadsheet file and forces an immediate browser
+                  stream download to the client, preconfigured with the
+                  appropriate Content-Type headers automatically.
+                </p>
+              </div>
 
-                <!-- Code 2 -->
-                <div class="bg-slate-900/80 border border-slate-700/70 rounded-2xl overflow-hidden shadow-xl">
-                    <div class="bg-slate-800/90 px-5 py-3 border-b border-slate-700/60 flex justify-between items-center">
-                        <span class="text-xs font-code text-slate-200 font-medium"><i class="fa-solid fa-circle-chevron-right text-emerald-400 mr-2"></i>2. Advanced Formatting & Merging</span>
-                        <span class="text-[10px] font-code bg-emerald-950 text-emerald-400 border border-emerald-900/50 px-2 py-0.5 rounded">Writer.php</span>
-                    </div>
-                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap">
-                        <p><span class="text-purple-400">use</span> ExcelTools\Writer;</p>
-                        <p><span class="text-blue-400">$excel</span> = <span class="text-purple-400">new</span> <span class="text-teal-400">Writer</span>();</p>
-                        <br>
-                        <p><span class="text-slate-500">// Configure dimensions & fonts</span></p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">setDefaultFont</span>(<span class="text-emerald-400">'Arial'</span>, <span class="text-orange-400">12</span>);</p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">mergeCells</span>(<span class="text-emerald-400">'A1:C1'</span>);</p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">fillCell</span>([[<span class="text-emerald-400">'MONTHLY FINANCIAL REPORT'</span>]], <span class="text-emerald-400">'A1'</span>);</p>
-                        <br>
-                        <p><span class="text-slate-500">// Apply rich array styles directly</span></p>
-                        <p><span class="text-blue-400">$headerStyle</span> = [</p>
-                        <p class="pl-4"><span class="text-emerald-400">'font'</span> =&gt; [<span class="text-emerald-400">'bold'</span> =&gt; <span class="text-purple-400">true</span>, <span class="text-emerald-400">'color'</span> =&gt; [<span class="text-emerald-400">'rgb'</span> =&gt; <span class="text-emerald-400">'FFFFFF'</span>]],</p>
-                        <p class="pl-4"><span class="text-emerald-400">'fill'</span> =&gt; [<span class="text-emerald-400">'fillType'</span> =&gt; $excel->fill::<span class="text-amber-400">FILL_SOLID</span>, <span class="text-emerald-400">'color'</span> =&gt; [<span class="text-emerald-400">'argb'</span> =&gt; <span class="text-emerald-400">'D9E1F2'</span>]],</p>
-                        <p class="pl-4"><span class="text-emerald-400">'alignment'</span> =&gt; [<span class="text-emerald-400">'horizontal'</span> =&gt; $excel->alignment::<span class="text-amber-400">HORIZONTAL_CENTER</span>]</p>
-                        <p>];</p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">applyStyle</span>(<span class="text-blue-400">$headerStyle</span>, <span class="text-emerald-400">'A1:C1'</span>);</p>
-                        <br>
-                        <p><span class="text-slate-500">// Adjust layouts dynamically</span></p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">setMultipleColumnsWidth</span>([<span class="text-emerald-400">'A'</span>, <span class="text-emerald-400">'B'</span>, <span class="text-emerald-400">'C'</span>], <span class="text-orange-400">20</span>);</p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">setRowHeight</span>(<span class="text-orange-400">1</span>, <span class="text-orange-400">35</span>);</p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">save</span>(<span class="text-emerald-400">'Styled_Report.xlsx'</span>);</p>
-                    </div>
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-emerald-400"
+                    >applyStyle(array $style, string $range)</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >void</span
+                  >
                 </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Applies mass style configurations based on an array scheme
+                  (borders, fonts, alignments, fills) to a specifically targeted
+                  range of cell coordinates.
+                </p>
+              </div>
 
-                <!-- Code 3 -->
-                <div class="bg-slate-900/80 border border-slate-700/70 rounded-2xl overflow-hidden shadow-xl">
-                    <div class="bg-slate-800/90 px-5 py-3 border-b border-slate-700/60 flex justify-between items-center">
-                        <span class="text-xs font-code text-slate-200 font-medium"><i class="fa-solid fa-circle-chevron-right text-emerald-400 mr-2"></i>3. Multi-Sheet Orchestration</span>
-                        <span class="text-[10px] font-code bg-emerald-950 text-emerald-400 border border-emerald-900/50 px-2 py-0.5 rounded">Writer.php</span>
-                    </div>
-                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap">
-                        <p><span class="text-purple-400">use</span> ExcelTools\Writer;</p>
-                        <p><span class="text-blue-400">$excel</span> = <span class="text-purple-400">new</span> <span class="text-teal-400">Writer</span>();</p>
-                        <br>
-                        <p><span class="text-slate-500">// Sheet 1 (Default Sheet)</span></p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-blue-400">spreadsheet</span>-&gt;<span class="text-amber-400">getActiveSheet</span>()-&gt;<span class="text-amber-400">setTitle</span>(<span class="text-emerald-400">'Active Users'</span>);</p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">fillCell</span>([[<span class="text-emerald-400">'John Doe'</span>, <span class="text-emerald-400">'Admin'</span>]], <span class="text-emerald-400">'A1'</span>);</p>
-                        <br>
-                        <p><span class="text-slate-500">// Create and switch to Sheet 2 cleanly</span></p>
-                        <p><span class="text-blue-400">$newSheet</span> = <span class="text-blue-400">$excel</span>-&gt;<span class="text-blue-400">spreadsheet</span>-&gt;<span class="text-amber-400">createSheet</span>();</p>
-                        <p><span class="text-blue-400">$newSheet</span>-&gt;<span class="text-amber-400">setTitle</span>(<span class="text-emerald-400">'Archived Logs'</span>);</p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">setActiveSheet</span>(<span class="text-orange-400">1</span>); <span class="text-slate-500">// Switch by index pointer</span></p>
-                        <br>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">fillCell</span>([[<span class="text-emerald-400">'Old Log Entry'</span>, <span class="text-emerald-400">'2024-12-10'</span>]], <span class="text-emerald-400">'A1'</span>);</p>
-                        <p><span class="text-blue-400">$excel</span>-&gt;<span class="text-amber-400">save</span>(<span class="text-emerald-400">'MultiSheet_System.xlsx'</span>);</p>
-                    </div>
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-emerald-400"
+                    >fillCell(array $value, string $startCell = 'A1')</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >void</span
+                  >
                 </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Hydrates multi-dimensional matrix data loops into the
+                  worksheet directly, starting from the specified anchor cell
+                  coordinate.
+                </p>
+              </div>
 
-                <!-- Code 4 -->
-                <div class="bg-slate-900/80 border border-slate-700/70 rounded-2xl overflow-hidden shadow-xl">
-                    <div class="bg-slate-800/90 px-5 py-3 border-b border-slate-700/60 flex justify-between items-center">
-                        <span class="text-xs font-code text-slate-200 font-medium"><i class="fa-solid fa-circle-chevron-right text-cyan-400 mr-2"></i>4. Advanced File Reading & Associative Array Parsing</span>
-                        <span class="text-[10px] font-code bg-cyan-950 text-cyan-400 border border-cyan-900 px-2 py-0.5 rounded">Reader.php</span>
-                    </div>
-                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap">
-                        <p><span class="text-purple-400">use</span> ExcelTools\Reader;</p>
-                        <p><span class="text-blue-400">$reader</span> = <span class="text-purple-400">new</span> <span class="text-teal-400">Reader</span>();</p>
-                        <p><span class="text-blue-400">$reader</span>-&gt;<span class="text-amber-400">loadFromFile</span>(<span class="text-blue-400">$_FILES</span>[<span class="text-emerald-400">'excel_file'</span>][<span class="text-emerald-400">'tmp_name'</span>]);</p>
-                        <br>
-                        <p><span class="text-slate-500">// Fetch data using the first row as array keys ('withHeaderRow' = true)</span></p>
-                        <p><span class="text-slate-500">// This automatically transforms complex Excel Date objects into 'Y-m-d' strings</span></p>
-                        <p><span class="text-blue-400">$records</span> = <span class="text-blue-400">$reader</span>-&gt;<span class="text-amber-400">getSheetData</span>(<span class="text-purple-400">true</span>);</p>
-                        <br>
-                        <p><span class="text-purple-400">foreach</span> (<span class="text-blue-400">$records</span> <span class="text-purple-400">as</span> <span class="text-blue-400">$row</span>) {</p>
-                        <p class="pl-4"><span class="text-slate-500">// Easily access via named spreadsheet header column headers</span></p>
-                        <p class="pl-4"><span class="text-blue-400">$email</span> = <span class="text-blue-400">$row</span>[<span class="text-emerald-400">'Email Address'</span>] ?? <span class="text-emerald-400">''</span>;</p>
-                        <p class="pl-4"><span class="text-blue-400">$birthday</span> = <span class="text-blue-400">$row</span>[<span class="text-emerald-400">'Birth Date'</span>] ?? <span class="text-emerald-400">''</span>; <span class="text-slate-500">// Returns clean string '1995-08-24'</span></p>
-                        <p>}</p>
-                    </div>
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-emerald-400"
+                    >wrapText(string $cell)</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >void</span
+                  >
                 </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Activates automatic wrap text functionality on a specific cell
+                  so that long text segments do not spill over adjacent
+                  boundaries horizontally.
+                </p>
+              </div>
+
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-emerald-400"
+                    >mergeCells(string $cells) / unmergeCells(string
+                    $cells)</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >void</span
+                  >
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Merges or unmerges a block array group of designated
+                  coordinate excel cells (e.g., 'A1:C1').
+                </p>
+              </div>
+
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-emerald-400"
+                    >setColumnWidth(string $dim, $width = null) /
+                    setDefaultColumnWidth(int $width)</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >void</span
+                  >
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Configures column dimensions. If the width argument is passed
+                  as `null`, the system immediately enables responsive AutoSize
+                  tracking to match content text lengths.
+                </p>
+              </div>
+
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-emerald-400"
+                    >setMultipleColumnsWidth(array $dimensions, $width =
+                    null)</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >void</span
+                  >
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Efficiently alters widths for several distinct columns
+                  simultaneously within a single line map statement (e.g.,
+                  `['A', 'B', 'D']`).
+                </p>
+              </div>
+
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-emerald-400"
+                    >setRowHeight($dim, $height) / setMultipleRowsHeight($dims,
+                    $height = null)</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >void</span
+                  >
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Directs custom row height constraints. Supports expressive
+                  range formats (e.g., strings like `'1-5'` or variable nested
+                  arrays).
+                </p>
+              </div>
+
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-emerald-400"
+                    >setDefaultFont(string $font, int $size)</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >void</span
+                  >
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Defines a global typography typeface dynamic and fallback font
+                  scale across the entire active worksheet workbook before
+                  cellular modifications take place.
+                </p>
+              </div>
             </div>
+          </div>
 
-            <!-- Native Instance Callout -->
-            <div class="bg-gradient-to-r from-emerald-950/40 to-slate-900/60 border border-emerald-500/40 rounded-2xl p-5 flex items-start gap-4 shadow-xl backdrop-blur-sm">
-                <div class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 p-2.5 rounded-xl mt-0.5">
-                    <i class="fa-solid fa-unlock-keyhole text-base"></i>
+          <!-- Reader Methods -->
+          <div class="space-y-4 pt-4">
+            <h4
+              class="text-xs font-code font-bold tracking-widest text-cyan-400 uppercase bg-cyan-950/40 border border-cyan-900/50 w-fit px-3 py-1 rounded-md"
+            >
+              Class: ExcelTools\Reader Methods
+            </h4>
+
+            <div class="grid grid-cols-1 gap-4">
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-cyan-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-cyan-400"
+                    >loadFromFile(string $filepath)</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >void</span
+                  >
                 </div>
-                <div class="space-y-1">
-                    <h4 class="text-sm font-bold text-emerald-300 font-code">$excel->spreadsheet</h4>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Even though ExcelCreator simplifies common functionalities, you will never lose control. Through the <code class="text-emerald-400 bg-slate-950 px-1 py-0.5 rounded font-code">spreadsheet</code> property, you can directly access the native instance of <strong class="text-emerald-200">PhpOffice\PhpSpreadsheet\Spreadsheet</strong> to fully utilize all advanced features built into PHPSpreadsheet without any limitations.
-                    </p>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Auto-identifies spreadsheet types, processes raw incoming
+                  binaries from local target server paths, and loads data
+                  directly into active memory objects.
+                </p>
+              </div>
+
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-cyan-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-cyan-400"
+                    >getSheetData(bool $withHeaderRow = false)</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >array</span
+                  >
                 </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Extracts all data row entities into native arrays. When set to
+                  `true`, the first row maps as associative column keys, while
+                  underlying Excel `DateTime` format tokens are cleanly
+                  formatted into regular date string values (`Y-m-d`).
+                </p>
+              </div>
+
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-cyan-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-cyan-400"
+                    >getSheetNames()</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >array</span
+                  >
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Fetches an index directory list of all available worksheets
+                  stored inside the currently loaded workbook package.
+                </p>
+              </div>
+
+              <div
+                class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-cyan-500/30 transition-colors"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 mb-2"
+                >
+                  <span class="font-code text-sm font-bold text-cyan-400"
+                    >setActiveSheet($identifier)</span
+                  >
+                  <span
+                    class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800"
+                    >void</span
+                  >
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Shifts runtime read/write context pointer focusing on a
+                  specific worksheet sheet index (`int`) or explicit workbook
+                  name identifier (`string`).
+                </p>
+              </div>
             </div>
-
-            <!-- API Reference Method -->
-            <div class="space-y-8 pt-6">
-                <h3 class="text-2xl font-extrabold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-book-bookmark text-amber-400 text-lg"></i> API Method Reference
-                </h3>
-
-                <!-- Writer Methods -->
-                <div class="space-y-4">
-                    <h4 class="text-xs font-code font-bold tracking-widest text-emerald-400 uppercase bg-emerald-950/40 border border-emerald-900/50 w-fit px-3 py-1 rounded-md">
-                        Class: ExcelTools\Writer Methods
-                    </h4>
-                    
-                    <div class="grid grid-cols-1 gap-4">
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-emerald-400">save(string $filename, string $excelType = 'Xlsx')</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">void</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Saves the spreadsheet file and forces an immediate browser stream download to the client, preconfigured with the appropriate Content-Type headers automatically.
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-emerald-400">applyStyle(array $style, string $range)</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">void</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Applies mass style configurations based on an array scheme (borders, fonts, alignments, fills) to a specifically targeted range of cell coordinates.
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-emerald-400">fillCell(array $value, string $startCell = 'A1')</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">void</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Hydrates multi-dimensional matrix data loops into the worksheet directly, starting from the specified anchor cell coordinate.
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-emerald-400">wrapText(string $cell)</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">void</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Activates automatic wrap text functionality on a specific cell so that long text segments do not spill over adjacent boundaries horizontally.
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-emerald-400">mergeCells(string $cells) / unmergeCells(string $cells)</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">void</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Merges or unmerges a block array group of designated coordinate excel cells (e.g., 'A1:C1').
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-emerald-400">setColumnWidth(string $dim, $width = null) / setDefaultColumnWidth(int $width)</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">void</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Configures column dimensions. If the width argument is passed as `null`, the system immediately enables responsive AutoSize tracking to match content text lengths.
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-emerald-400">setMultipleColumnsWidth(array $dimensions, $width = null)</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">void</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Efficiently alters widths for several distinct columns simultaneously within a single line map statement (e.g., `['A', 'B', 'D']`).
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-emerald-400">setRowHeight($dim, $height) / setMultipleRowsHeight($dims, $height = null)</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">void</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Directs custom row height constraints. Supports expressive range formats (e.g., strings like `'1-5'` or variable nested arrays).
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-emerald-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-emerald-400">setDefaultFont(string $font, int $size)</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">void</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Defines a global typography typeface dynamic and fallback font scale across the entire active worksheet workbook before cellular modifications take place.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Reader Methods -->
-                <div class="space-y-4 pt-4">
-                    <h4 class="text-xs font-code font-bold tracking-widest text-cyan-400 uppercase bg-cyan-950/40 border border-cyan-900/50 w-fit px-3 py-1 rounded-md">
-                        Class: ExcelTools\Reader Methods
-                    </h4>
-
-                    <div class="grid grid-cols-1 gap-4">
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-cyan-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-cyan-400">loadFromFile(string $filepath)</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">void</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Auto-identifies spreadsheet types, processes raw incoming binaries from local target server paths, and loads data directly into active memory objects.
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-cyan-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-cyan-400">getSheetData(bool $withHeaderRow = false)</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">array</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Extracts all data row entities into native arrays. When set to `true`, the first row maps as associative column keys, while underlying Excel `DateTime` format tokens are cleanly formatted into regular date string values (`Y-m-d`).
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-cyan-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-cyan-400">getSheetNames()</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">array</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Fetches an index directory list of all available worksheets stored inside the currently loaded workbook package.
-                            </p>
-                        </div>
-
-                        <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-xl hover:border-cyan-500/30 transition-colors">
-                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                <span class="font-code text-sm font-bold text-cyan-400">setActiveSheet($identifier)</span>
-                                <span class="text-[10px] font-code bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">void</span>
-                            </div>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Shifts runtime read/write context pointer focusing on a specific worksheet sheet index (`int`) or explicit workbook name identifier (`string`).
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </section>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <footer class="relative z-10 border-t border-slate-800 bg-slate-950/80 backdrop-blur-md py-6 text-center text-xs text-slate-400 font-code">
-        <div>
-            &copy; 2026 Powered by <span class="text-emerald-400 font-sans font-semibold">ExcelCreator</span>. Designed by <span class="text-slate-300 font-sans font-semibold">Adnan Zaki</span>.
-        </div>
+    <footer
+      class="relative z-10 border-t border-slate-800 bg-slate-950/80 backdrop-blur-md py-6 text-center text-xs text-slate-400 font-code"
+    >
+      <div>
+        &copy; 2026 Powered by
+        <span class="text-emerald-400 font-sans font-semibold"
+          >ExcelCreator</span
+        >. Designed by
+        <span class="text-slate-300 font-sans font-semibold">Adnan Zaki</span>.
+      </div>
     </footer>
-
-</body>
-
+  </body>
 </html>
