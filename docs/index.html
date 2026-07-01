@@ -20,8 +20,8 @@
                         code: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
-                        lightning: '#f59e0b', // Amber / Lightning Yellow
-                        flashblue: '#3b82f6', // Electric Blue
+                        lightning: '#f59e0b',
+                        flashblue: '#3b82f6',
                     }
                 }
             }
@@ -46,7 +46,6 @@
 
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
 
-    <!-- Ambient Glow / Background Aura yang lebih kaya warna -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none overflow-hidden z-0">
         <div class="absolute -top-40 left-1/4 w-[600px] h-[600px] bg-emerald-500/20 rounded-full blur-[140px]"></div>
         <div class="absolute -top-20 right-1/4 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px]"></div>
@@ -134,7 +133,7 @@
                         <span class="text-xs font-code text-slate-200 font-medium"><i class="fa-solid fa-circle-chevron-right text-emerald-400 mr-2"></i>1. Basic Data Export</span>
                         <span class="text-[10px] font-code bg-emerald-950 text-emerald-400 border border-emerald-900/50 px-2 py-0.5 rounded">Writer.php</span>
                     </div>
-                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed">
+                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap">
                         <p><span class="text-purple-400">use</span> ExcelTools\Writer;</p>
                         <p><span class="text-blue-400">$excel</span> = <span class="text-purple-400">new</span> <span class="text-teal-400">Writer</span>();</p>
                         <br>
@@ -155,7 +154,7 @@
                         <span class="text-xs font-code text-slate-200 font-medium"><i class="fa-solid fa-circle-chevron-right text-emerald-400 mr-2"></i>2. Advanced Formatting & Merging</span>
                         <span class="text-[10px] font-code bg-emerald-950 text-emerald-400 border border-emerald-900/50 px-2 py-0.5 rounded">Writer.php</span>
                     </div>
-                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed">
+                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap">
                         <p><span class="text-purple-400">use</span> ExcelTools\Writer;</p>
                         <p><span class="text-blue-400">$excel</span> = <span class="text-purple-400">new</span> <span class="text-teal-400">Writer</span>();</p>
                         <br>
@@ -185,7 +184,7 @@
                         <span class="text-xs font-code text-slate-200 font-medium"><i class="fa-solid fa-circle-chevron-right text-emerald-400 mr-2"></i>3. Multi-Sheet Orchestration</span>
                         <span class="text-[10px] font-code bg-emerald-950 text-emerald-400 border border-emerald-900/50 px-2 py-0.5 rounded">Writer.php</span>
                     </div>
-                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed">
+                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap">
                         <p><span class="text-purple-400">use</span> ExcelTools\Writer;</p>
                         <p><span class="text-blue-400">$excel</span> = <span class="text-purple-400">new</span> <span class="text-teal-400">Writer</span>();</p>
                         <br>
@@ -209,7 +208,7 @@
                         <span class="text-xs font-code text-slate-200 font-medium"><i class="fa-solid fa-circle-chevron-right text-cyan-400 mr-2"></i>4. Advanced File Reading & Associative Array Parsing</span>
                         <span class="text-[10px] font-code bg-cyan-950 text-cyan-400 border border-cyan-900 px-2 py-0.5 rounded">Reader.php</span>
                     </div>
-                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed">
+                    <div class="p-5 font-code text-xs sm:text-sm bg-slate-950 text-slate-300 overflow-x-auto scrollbar-none space-y-1 leading-relaxed whitespace-nowrap">
                         <p><span class="text-purple-400">use</span> ExcelTools\Reader;</p>
                         <p><span class="text-blue-400">$reader</span> = <span class="text-purple-400">new</span> <span class="text-teal-400">Reader</span>();</p>
                         <p><span class="text-blue-400">$reader</span>-&gt;<span class="text-amber-400">loadFromFile</span>(<span class="text-blue-400">$_FILES</span>[<span class="text-emerald-400">'excel_file'</span>][<span class="text-emerald-400">'tmp_name'</span>]);</p>
