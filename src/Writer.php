@@ -15,7 +15,6 @@
  */
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx as XlsxWriter;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\Style;
@@ -89,23 +88,11 @@ class Writer
      * 
      * @param object $spreadsheet -> The Spreadsheet object
      * 
-     * @return PhpOffice\PhpSpreadsheet\Writer\Xlsx
+     * @return XlsxWriter
      */
     public function writer($spreadsheet)
     {
         return new XlsxWriter($spreadsheet);
-    }
-
-    /**
-     * Run the XlsxReader() object
-     * 
-     * @param object $spreadsheet -> The Spreadsheet object
-     * 
-     * @return PhpOffice\PhpSpreadsheet\Reader\Xlsx
-     */
-    public function reader($spreadsheet)
-    {
-        return new XlsxReader($spreadsheet);
     }
 
     /**
